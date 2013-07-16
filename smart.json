@@ -3,7 +3,7 @@
 	"description": "Package that helps easily load external js and css files dynamically.",
 	"homepage": "https://github.com/davidd8/meteor-external-file-loader",
 	"author": "@davidd8 <http://www.davidexmachina.com>",
-	"version": "0.1.1",
+	"version": "0.1.2",
 	"git": "https://github.com/davidd8/meteor-external-file-loader.git",
 	"packages": {}
 }
