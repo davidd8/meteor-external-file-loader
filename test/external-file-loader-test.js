@@ -1,6 +1,7 @@
 // external-file-loader-test.js
 
 Tinytest.add('loadJs Simple Test', function(test) {
+	Meteor.Loader.resetUrls();
 	test.equal(Meteor.Loader.loadedUrls, {});
 
 	var url = 'testUrl';
@@ -16,6 +17,7 @@ Tinytest.add('loadJs Simple Test', function(test) {
 });
 
 Tinytest.addAsync('loadJs Real Test', function(test, expect) {
+	Meteor.Loader.resetUrls();
 	// test real url
 	var realUrl = "http://code.jquery.com/jquery-1.10.1.min.js";
 	test.isFalse(Meteor.Loader.loaded(realUrl));
@@ -25,4 +27,17 @@ Tinytest.addAsync('loadJs Real Test', function(test, expect) {
 		expect();
 	};
 	Meteor.Loader.loadJs(realUrl, cb);
+});
+
+Tinytest.add('loadCss Simple Test', function(test) {
+	Meteor.Loader.resetUrls();
+	test.equal(Meteor.Loader.loadedUrls, {});
+
+	var url = 'testUrl';
+	test.isFalse(Meteor.Loader.loaded(url));
+
+	Meteor.Loader.loadCss(url);
+
+	test.isTrue(Meteor.Loader.loaded(url));
+	test.isFalse(Meteor.Loader.loadCss(url));
 });
