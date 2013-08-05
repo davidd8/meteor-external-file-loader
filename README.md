@@ -19,7 +19,7 @@ $ mrt add external-file-loader
 2. Load the library in the template that you'll use it in.
 3. Use the library once it's been loaded.
 
-### Example
+### Script Example
 
 Using [stripe.js](https://js.stripe.com/v2/) as the example. We'll load it into the billing template, and charge people money.
 
@@ -33,11 +33,53 @@ Template.billing.created = function() {
 };
 ```
 
+### HTML Examples
+
+Our example plain HTML fragment `fragment.html`, assumed to be served in these examples as static content under `public`.
+
+``` html
+<div>I'm text, with a <button>button</button>.</div>
+```
+
+Here's loading our external HTML fragment via a Handlebars helper.
+
+``` javascript
+Handlebars.registerHelper('loadHtml', function() {
+	var template = Meteor.Loader.loadHtml('/fragment.html','new_template_name');
+	
+	// here we're passing the current data context of the parent template to our fragment
+	return template(this);
+});
+```
+
+Here's loading the same fragment and inserting into the DOM manually.
+
+``` javascript
+Meteor.startup(function() { // dom is ready
+	var fragment = Meteor.render(function() {
+		var tpl = Meteor.Loader.loadHtml('/fragment.html','new_template_name');
+		
+		// catch an event this time
+		tpl.events({
+			'click button': function() {
+				console.log('hello!');
+			}
+		});
+		
+		return tpl();
+	});
+	
+	$('#inserthere').html(fragment);
+});
+```
+
 ### Methods
 
  - `loadJs(url, callback)` - Load external JS from a url. Callback is called once the url has been loaded.
 
  - `loadCss(url)` - Load external CSS from a url.
+ 
+ - `loadHtml(url, template_name)` - Load external HTML file from URL and instantiate as template. Returns the template object that's also under the Template namespace (`Template['template_name']`). Handlebar expressions won't work when loading HTML this way.
  
 ## Contributing
 
