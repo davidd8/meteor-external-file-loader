@@ -35,25 +35,31 @@ Template.billing.created = function() {
 
 ### HTML Examples
 
-Loading external HTML fragment via a Handlebars helper.
+Our example plain HTML fragment `fragment.html`, assumed to be served in these examples as static content under `public`.
+
+``` html
+<div>I'm text, with a <button>button</button>.</div>
+```
+
+Here's loading our external HTML fragment via a Handlebars helper.
 
 ``` javascript
 Handlebars.registerHelper('loadHtml', function() {
-	var template = Meteor.Loader.loadHtml('/htmlFragment.html','new_template_name');
+	var template = Meteor.Loader.loadHtml('/fragment.html','new_template_name');
 	
-	// here we're passing the current data context of the parent template
+	// here we're passing the current data context of the parent template to our fragment
 	return template(this);
 });
 ```
 
-Loading and inserting into the DOM manually.
+Here's loading the same fragment and inserting into the DOM manually.
 
 ``` javascript
 Meteor.startup(function() { // dom is ready
 	var fragment = Meteor.render(function() {
-		var tpl = Meteor.Loader.loadHtml('/htmlFragment.html','new_template_name');
+		var tpl = Meteor.Loader.loadHtml('/fragment.html','new_template_name');
 		
-		// catch some events
+		// catch an event this time
 		tpl.events({
 			'click button': function() {
 				console.log('hello!');

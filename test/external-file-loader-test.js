@@ -43,16 +43,13 @@ Tinytest.add('loadCss Simple Test', function(test) {
 });
 
 Tinytest.add('loadHtml Real Test', function(test) {
-	Meteor.Loader.resetUrls();
-	test.equal(Meteor.Loader.loadedUrls, {});
-	
-	var urlStub = function() {
-			return '<div>Test</div>';
-		},
-		
-		tpl = Meteor.Loader.loadHtml(urlStub,'test_tpl');
+	Meteor.Loader.ajax = function(opts) {
+		opts.success('<div>Test</div>');
+	};
+
+	var tpl = Meteor.Loader.loadHtml('/test/testhtml','test_tpl');
 	
 	test.isTrue(Template['test_tpl']);
 	test.equal(Template['test_tpl'](), '<div>Test</div>');
-	test.equal(Template['test_tpl'], Meteor.Loader.loadHtml(urlStub,'test_tpl'));
+	test.equal(Template['test_tpl'], Meteor.Loader.loadHtml('/test/testhtml','test_tpl'));
 });
