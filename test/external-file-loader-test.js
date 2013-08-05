@@ -46,10 +46,13 @@ Tinytest.add('loadHtml Real Test', function(test) {
 	Meteor.Loader.resetUrls();
 	test.equal(Meteor.Loader.loadedUrls, {});
 	
-	var url = 'https://raw.github.com/sterlingwes/meteor-external-file-loader/master/test/test.html';
-	var tpl = Meteor.Loader.loadHtml(url,'test_tpl');
+	var urlStub = function() {
+			return '<div>Test</div>';
+		},
+		
+		tpl = Meteor.Loader.loadHtml(urlStub,'test_tpl');
 	
 	test.isTrue(Template['test_tpl']);
 	test.equal(Template['test_tpl'](), '<div>Test</div>');
-	test.equal(Template['test_tpl'], Meteor.Loader.loadHtml(url,'test_tpl'));
+	test.equal(Template['test_tpl'], Meteor.Loader.loadHtml(urlStub,'test_tpl'));
 });
