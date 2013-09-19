@@ -29,6 +29,38 @@ Tinytest.addAsync('loadJs Real Test', function(test, expect) {
 	Meteor.Loader.loadJs(realUrl, cb);
 });
 
+Tinytest.addAsync('crossdomain loadJs with promises', function(test, expect) {
+	Meteor.Loader.resetUrls();
+	// test non-existing cross-domain url
+	var fakeUrl = "http://this.url.wont/point/to/anything123.js";
+	test.isFalse(Meteor.Loader.loaded(fakeUrl));
+	var notCalled = function() {
+		test.isTrue(false);
+		expect();
+	};
+	var called = function() {
+		test.isTrue(true);
+		expect();
+	};
+	Meteor.Loader.loadJs(fakeUrl, 2000).fail(called).done(notCalled);
+});
+
+Tinytest.addAsync('local loadJs with promises', function(test, expect) {
+	Meteor.Loader.resetUrls();
+	// test non-existing cross-domain url
+	var fakeUrl = "anything123.js";
+	test.isFalse(Meteor.Loader.loaded(fakeUrl));
+	var notCalled = function() {
+		test.isTrue(false);
+		expect();
+	};
+	var called = function() {
+		test.isTrue(true);
+		expect();
+	};
+	Meteor.Loader.loadJs(fakeUrl).fail(called).done(notCalled);
+});
+
 Tinytest.add('loadCss Simple Test', function(test) {
 	Meteor.Loader.resetUrls();
 	test.equal(Meteor.Loader.loadedUrls, {});
@@ -48,7 +80,7 @@ Tinytest.add('loadHtml Real Test', function(test) {
 	};
 
 	var tpl = Meteor.Loader.loadHtml('/test/testhtml','test_tpl');
-	
+
 	test.isTrue(Template['test_tpl']);
 	test.equal(Template['test_tpl'](), '<div>Test</div>');
 	test.equal(Template['test_tpl'], Meteor.Loader.loadHtml('/test/testhtml','test_tpl'));
