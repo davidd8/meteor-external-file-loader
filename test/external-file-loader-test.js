@@ -38,7 +38,8 @@ Tinytest.addAsync('crossdomain loadJs with promises', function(test, expect) {
 		test.isTrue(false);
 		expect();
 	};
-	var called = function() {
+	var called = function(status) {
+		test.equal(status.statusText, "Timeout error: The script was not found or took too long to load.");
 		test.isTrue(true);
 		expect();
 	};
