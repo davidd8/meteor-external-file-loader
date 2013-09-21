@@ -33,6 +33,16 @@ Template.billing.created = function() {
 };
 ```
 
+The method returns a [jQuery promise](http://api.jquery.com/deferred.promise/), for easy error handling in case the script cannot be loaded.
+
+The request times out after a while in case the script cannot be found. The default is 5000ms, but is customizable:
+
+``` javascript
+// These 2 calls are equivalent, and set a 10s timeout
+Meteor.Loader.loadJs("//www.google.com/jsapi", sucessCallback, 10000).fail(retryMessageCallback)
+Meteor.Loader.loadJs("//www.google.com/jsapi", 10000).fail(retryMessageCallback).done(successCallback);
+```
+
 ### HTML Examples
 
 Our example plain HTML fragment `fragment.html`, assumed to be served in these examples as static content under `public`.
@@ -75,7 +85,7 @@ Meteor.startup(function() { // dom is ready
 
 ### Methods
 
- - `loadJs(url, callback)` - Load external JS from a url. Callback is called once the url has been loaded.
+ - `loadJs(url, callback, timeoutDelay)` - Load external JS from a url. Callback is called once the url has been loaded. TimeoutDelay is the delay before timeout, in ms. Callback and timeoutDelay are optional. The method returns a [jQuery promise](http://api.jquery.com/deferred.promise/).
 
  - `loadCss(url)` - Load external CSS from a url.
  
