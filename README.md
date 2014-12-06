@@ -9,9 +9,8 @@ This package aims to make it easier.
 ## Installation
 
 ``` sh
-$ mrt add external-file-loader
+$ meteor add mrt:external-file-loader
 ```
-**Dependencies**: meteorite, jquery meteor smart package
 
 ## Usage
 
